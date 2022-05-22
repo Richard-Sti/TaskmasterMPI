@@ -41,7 +41,7 @@ def master_process(tasks, comm, verbose=False):
         raise TypeError("`tasks` must be a list.")
     # Check the list does not cointan None
     if any(task is None for task in tasks):
-        raise TypeError(tasks, list)
+        raise TypeError(tasks, "`tasks` cannot contain `None`.")
     # Put the breaking conditions at the front
     tasks = [None] * (comm.Get_size() - 1) + tasks
 
