@@ -1,2 +1,3 @@
 TaskmasterMPI/__pycache__/*
 TaskmasterMPI.egg-info/*
+build/*
