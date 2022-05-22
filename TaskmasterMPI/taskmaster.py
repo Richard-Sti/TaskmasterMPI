@@ -12,6 +12,7 @@
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+from sys import stdout
 from mpi4py import MPI
 
 
@@ -55,6 +56,7 @@ def master_process(tasks, comm, verbose=False):
         comm.send(task, dest=dest)
         if verbose:
             print("Sending task {} to worker {}.".format(task, dest))
+            stdout.flush()
 
 
 def worker_process(func, comm, verbose=False):
@@ -82,8 +84,9 @@ def worker_process(func, comm, verbose=False):
         # Breaking condition
         if task is None:
             break
-        
+
         if verbose:
             print("Rank {} received task {}.".format(comm.Get_rank(), task))
+            stdout.flush()
         # Actually evaluate the function
         func(task)
