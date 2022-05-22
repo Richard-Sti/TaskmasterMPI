@@ -13,6 +13,7 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 from sys import stdout
+from copy import deepcopy
 from mpi4py import MPI
 
 
@@ -40,11 +41,11 @@ def master_process(tasks, comm, verbose=False):
     # Check we have a list
     if not isinstance(tasks, list):
         raise TypeError("`tasks` must be a list.")
-    # Check the list does not cointan None
+    # Check the list does not contain None
     if any(task is None for task in tasks):
-        raise TypeError(tasks, "`tasks` cannot contain `None`.")
-    # Put the breaking conditions at the front
-    tasks = [None] * (comm.Get_size() - 1) + tasks
+        raise TypeError("`tasks` cannot contain `None`.")
+    # Put the breaking conditions at the front and deepcopy it since will pop
+    tasks = [None] * (comm.Get_size() - 1) + deepcopy(tasks)
 
     status = MPI.Status()
     while len(tasks) > 0:
