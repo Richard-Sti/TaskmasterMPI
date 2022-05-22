@@ -5,6 +5,12 @@ A simple Python taskmaster that delagates the evaluation of a function ``f(task)
 
 
 ## Installation
+Clone the repository and install locally:
+
+```bashrc
+git clone git@github.com:Richard-Sti/TaskmasterMPI.git
+pip install ./TaskmasterMPI/.
+```
 
 
 ## License
