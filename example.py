@@ -11,7 +11,6 @@ rank = comm.Get_rank()
 size = comm.Get_size()
 
 
-        
 def func(x):
     """Example function to process a task."""
     sleep(3 * random())

@@ -30,7 +30,7 @@ setup(
     author_email='richard.stiskalek@protonmail.com',
     license='GPL-3.0',
     packages=find_packages(),
-    install_requires=["mpi4py>=3.1.0"],
+    install_requires=["mpi4py>=3.0.0"],
     python_requires=">=3.6",
     classifiers=[
         "Programming Language :: Python :: 3",
