@@ -12,7 +12,7 @@
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-from sys import stdout
+from datetime import datetime
 from copy import deepcopy
 from mpi4py import MPI
 
@@ -44,8 +44,9 @@ def master_process(tasks, comm, verbose=False):
     # Check the list does not contain None
     if any(task is None for task in tasks):
         raise TypeError("`tasks` cannot contain `None`.")
+    nworkers = comm.Get_size() - 1
     # Put the breaking conditions at the front and deepcopy it since will pop
-    tasks = [None] * (comm.Get_size() - 1) + deepcopy(tasks)
+    tasks = [None] * nworkers + deepcopy(tasks)
 
     status = MPI.Status()
     while len(tasks) > 0:
@@ -55,9 +56,10 @@ def master_process(tasks, comm, verbose=False):
         # Send a task to the worker
         task = tasks.pop()
         comm.send(task, dest=dest)
-        if verbose:
-            print("Sending task {} to worker {}.".format(task, dest))
-            stdout.flush()
+        if verbose and task is not None:
+            print("{}: sending task {} to worker {}. {} tasks remaining."
+                  .format(datetime.now(), task, dest, len(tasks) - nworkers),
+                  flush=True)
 
 
 def worker_process(func, comm, verbose=False):
@@ -87,7 +89,7 @@ def worker_process(func, comm, verbose=False):
             break
 
         if verbose:
-            print("Rank {} received task {}.".format(comm.Get_rank(), task))
-            stdout.flush()
+            print("{}: rank {} received task {}."
+                  .format(datetime.now(), comm.Get_rank(), task), flush=True)
         # Actually evaluate the function
         func(task)
