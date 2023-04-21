@@ -4,3 +4,4 @@ build/*
 .bashrc
 *.out
 *.sh
+.trunk/*
