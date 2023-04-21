@@ -12,8 +12,9 @@
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-from datetime import datetime
 from copy import deepcopy
+from datetime import datetime
+
 from mpi4py import MPI
 
 
@@ -26,7 +27,7 @@ def master_process(tasks, comm, verbose=False):
     ---------
     tasks: list
         List of arguments to be send to the function evaluated by a worker.
-    commm: `py:class:mpi4py:MPI.COMM_WORLD`
+    comm : `py:class:mpi4py:MPI.COMM_WORLD`
         MPI Comm world object.
     verbose: bool
         Verbosity flag.
@@ -57,9 +58,12 @@ def master_process(tasks, comm, verbose=False):
         task = tasks.pop()
         comm.send(task, dest=dest)
         if verbose and task is not None:
-            print("{}: sending task {} to worker {}. {} tasks remaining."
-                  .format(datetime.now(), task, dest, len(tasks) - nworkers),
-                  flush=True)
+            print(
+                "{}: sending task {} to worker {}. {} tasks remaining.".format(
+                    datetime.now(), task, dest, len(tasks) - nworkers
+                ),
+                flush=True,
+            )
 
 
 def worker_process(func, comm, verbose=False):
@@ -70,7 +74,7 @@ def worker_process(func, comm, verbose=False):
     ---------
     func: `py:function`
         Function to be evaluated.
-    commm: `py:class:mpi4py:MPI.COMM_WORLD`
+    comm: `py:class:mpi4py:MPI.COMM_WORLD`
         MPI Comm world object.
     verbose: bool
         Verbosity flag.
@@ -89,7 +93,11 @@ def worker_process(func, comm, verbose=False):
             break
 
         if verbose:
-            print("{}: rank {} received task {}."
-                  .format(datetime.now(), comm.Get_rank(), task), flush=True)
+            print(
+                "{}: rank {} received task {}.".format(
+                    datetime.now(), comm.Get_rank(), task
+                ),
+                flush=True,
+            )
         # Actually evaluate the function
         func(task)
