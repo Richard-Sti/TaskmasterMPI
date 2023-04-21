@@ -18,4 +18,4 @@
 __version__ = "0.1.0"
 __author__ = "Richard Stiskalek"
 
-from .taskmaster import Taskmaster  # noqa
+from .src import master_process, worker_process  # noqa

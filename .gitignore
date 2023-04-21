@@ -1,5 +1,5 @@
-TaskmasterMPI/__pycache__/*
-TaskmasterMPI.egg-info/*
+taskmaster/__pycache__/*
+taskmaster.egg-info/*
 build/*
 .bashrc
 *.out
