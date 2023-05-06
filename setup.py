@@ -21,7 +21,7 @@ with open('README.md', "r") as fh:
 
 
 setup(
-    name='TaskmasterMPI',
+    name='taskmaster',
     version="0.1.0",
     description='A simple Python MPI taskmaster.',
     long_description=long_description,

@@ -17,6 +17,7 @@ from datetime import datetime
 
 from mpi4py import MPI
 
+
 def master_process(tasks, comm, verbose=False):
     """
     Check if a process of higher rank is available, if so delegates it a task.
@@ -34,9 +35,10 @@ def master_process(tasks, comm, verbose=False):
     """
     if not comm.Get_size() > 1:
         raise ValueError("MPI size must be > 1.")
-    # We check that `tasks` is a list and that it does not contain `None`. These
-    # are used to terminate the task assignment.
-    if not (isinstance(tasks, list) and all(task is not None for task in tasks)):
+    # We check that `tasks` is a list and that it does not contain `None`.
+    # These are used to terminate the task assignment.
+    if not (isinstance(tasks, list)
+            and all(task is not None for task in tasks)):
         raise TypeError("`tasks` must be a list and cannot contain `None`")
     status = MPI.Status()
     nworkers = comm.Get_size() - 1
@@ -44,7 +46,8 @@ def master_process(tasks, comm, verbose=False):
     # since we will be modifying it.
     tasks = [None] * nworkers + deepcopy(tasks)
     while len(tasks) > 0:
-        # If a a message is received, i.e. a worker is available, we send it a task.
+        # If a a message is received, i.e. a worker is available, we send it
+        # a task.
         comm.recv(source=MPI.ANY_SOURCE, status=status)
         dest = status.Get_source()
         task = tasks.pop()
@@ -52,7 +55,7 @@ def master_process(tasks, comm, verbose=False):
         if verbose and task is not None:
             print(
                 f"{datetime.now()}: sending task {task} to worker {dest}.",
-                f"{len(tasks - nworkers)} tasks remaining.",
+                f"{len(tasks) - nworkers} tasks remaining.",
                 flush=True,
             )
 
