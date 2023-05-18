@@ -1,6 +1,6 @@
 # Python MPI Taskmaster
 
-A simple Python MPI taskmaster that efficiently delegates the evaluation of a function ``func(task)`` to multiple worker processes. The function ``func(task)`` should not take any additional arguments or return any values. Instead, it should write its output directly to disk.
+A simple Python MPI taskmaster that efficiently delegates the evaluation of a function ``func(task)`` to multiple worker processes. The function should not take any additional arguments or return any values. Instead, it should write its output directly to disk.
 
 ## Overview
 The taskmaster is designed to work with MPI, where the zeroth rank process acts as the taskmaster, while higher rank processes serve as workers. The taskmaster sends tasks to available workers and ensures optimal utilization of resources.
@@ -8,17 +8,14 @@ The taskmaster is designed to work with MPI, where the zeroth rank process acts 
 ## Example
 ```python
 from time import sleep
-
 from mpi4py import MPI
-
 from taskmaster import work_delegation
 
 comm = MPI.COMM_WORLD
 
 
 def func(x):
-    """Example function to process a task."""
-    print(f"Sleeping on task `{x}`.")
+    print(f"Sleeping... Task is `{x}`.")
     sleep(3)
 
 
@@ -27,7 +24,7 @@ work_delegation(func, tasks, comm)
 ```
 
 ## Installation
-Clone the repository and install locally:
+Clone the repository and install locally in your favourite environment:
 
 ```bashrc
 git clone git@github.com:Richard-Sti/TaskmasterMPI.git
