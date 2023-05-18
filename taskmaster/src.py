@@ -87,3 +87,40 @@ def worker_process(func, comm, verbose=False):
             now = datetime.now()
             print(f"{now}: rank {rank} received task {task}.", flush=True)
         func(task)
+
+
+def work_delegation(func, tasks, comm, master_verbose=True,
+                    worker_verbose=False):
+    """
+    Worker delegation loop. If `comm.Get_size() > 1` then the master process
+    is delegating tasks to workers. Otherwise, the tasks are evaluated on the
+    master process.
+
+    Parameters
+    ----------
+    func : `py:function`
+        Function to be evaluated.
+    tasks : list
+        List of arguments to be send to the function evaluated by a worker.
+    comm : `py:class:mpi4py:MPI.COMM_WORLD`
+        MPI Comm world object.
+    master_verbose : bool
+        Verbosity flag for the master process.
+    worker_verbose : bool
+        Verbosity flag for the worker process.
+
+    Returns
+    -------
+    None
+    """
+    if comm.Get_size() > 1:
+        if comm.Get_rank() == 0:
+            master_process(tasks, comm, verbose=master_verbose)
+        else:
+            worker_process(func, comm, verbose=worker_verbose)
+    else:
+        for task in tasks:
+            if master_process:
+                print(f"{datetime.now()}: completing task `{task}`.",
+                      flush=True)
+            func(task)

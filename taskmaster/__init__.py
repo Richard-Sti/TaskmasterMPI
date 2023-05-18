@@ -15,7 +15,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __author__ = "Richard Stiskalek"
 
-from .src import master_process, worker_process  # noqa
+from .src import master_process, work_delegation, worker_process  # noqa
