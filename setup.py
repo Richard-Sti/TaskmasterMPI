@@ -22,16 +22,16 @@ with open('README.md', "r") as fh:
 
 setup(
     name='taskmaster',
-    version="0.1.0",
+    version="0.2.0",
     description='A simple Python MPI taskmaster.',
     long_description=long_description,
-    url='https://github.com/Richard-Sti/TaskmasterPython',
+    url='https://github.com/Richard-Sti/TaskmasterMPI',
     author='Richard Stiskalek',
     author_email='richard.stiskalek@protonmail.com',
     license='GPL-3.0',
     packages=find_packages(),
-    install_requires=["mpi4py>=3.0.0"],
-    python_requires=">=3.6",
+    install_requires=["mpi4py"],
+    python_requires=">=3.8",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
