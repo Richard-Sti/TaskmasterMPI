@@ -4,5 +4,4 @@ build/*
 .bashrc
 *.out
 *.sh
-.trunk/*
 .vscode/*
